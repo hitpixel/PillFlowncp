@@ -16,7 +16,7 @@ A modern, feature-rich starter template for building production-ready applicatio
 - 💳 **Polar.sh** - Open-source solution for managing subscriptions and payments
 
 ### Performance Optimizations
-- 🚀 **Route Prefetching** - Instant page transitions for dashboard, playground, and auth pages
+- 🚀 **Route Prefetching** - Instant page transitions for dashboard and auth pages
 - 🖼️ **Optimized Images** - Eager loading for critical images
 - 🌓 **Dark/Light Mode** - System-aware theme switching with custom gradients
 - 📱 **Responsive Design** - Mobile-first approach
@@ -24,7 +24,6 @@ A modern, feature-rich starter template for building production-ready applicatio
 
 ### Developer Experience
 - 🧩 **Component Library** - Pre-built, customizable components
-- 🎮 **AI Playground** - Built-in AI chat interface
 - 📊 **Dashboard Template** - Ready-to-use admin interface with subscription management
 - 🔍 **SEO Optimized** - Meta tags and sitemap generation
 
@@ -71,9 +70,6 @@ POLAR_WEBHOOK_SECRET=
 
 # Frontend
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
-
-# Optional: AI Integration
-OPENAI_API_KEY=
 ```
 
 5. Run the development server:
@@ -90,8 +86,7 @@ Open [http://localhost:3000](http://localhost:3000) to see your application.
 │   ├── (auth)/         # Authentication routes
 │   ├── (marketing)/    # Marketing pages
 │   ├── api/           # API routes
-│   ├── dashboard/     # Dashboard pages
-│   └── playground/    # AI Playground
+│   └── dashboard/     # Dashboard pages
 ├── components/
 │   ├── homepage/     # Landing page components
 │   ├── shared/       # Shared UI components
@@ -173,115 +168,6 @@ npx convex dev
 ```
 2. When prompted, create a new project and name it in the Convex dashboard
 3. The command will automatically add the `NEXT_PUBLIC_CONVEX_URL` to your `.env.local`
-4. Add these environment variables in the Convex dashboard:
-   - `CLERK_SIGNING_KEY` (from Clerk JWT issuer URL)
-   - `FRONTEND_URL` (your app URL, will be set in Local Development)
-   - `POLAR_ACCESS_TOKEN` (will get this in next step)
-   - `POLAR_WEBHOOK_SECRET` (will get this in Polar setup)
-
-#### Polar.sh Payments
-1. Go to [sandbox.polar.sh](https://sandbox.polar.sh) for testing (use this instead of production polar.sh)
-2. Create a new organization
-3. Create a new product:
-   - Set name and description
-   - Add monthly pricing (e.g., $12/month)
-   - Add yearly pricing (e.g., $100/year)
-   - Copy the product ID and price IDs (click the three dots next to the product)
-4. Generate an access token:
-   - Go to Settings
-   - Create new access token with full permissions
-   - Set no expiration date for testing
-   - Add the token to Convex environment variables as `POLAR_ACCESS_TOKEN`
-5. Set up webhook:
-   - Go to Settings > Webhooks
-   - Add endpoint: Your Convex HTTP Actions URL + `/payment-webhook`
-     - Find your Convex HTTP Actions URL in the Convex dashboard under "Settings > URL & Deploy Key"
-     - It looks like: `https://<your-deployment-id>.convex.site`
-     - The final webhook URL should be: `https://<your-deployment-id>.convex.site/payment-webhook`
-   - Select "Raw" format
-   - Select all event types
-   - Click "Generate" to create a webhook secret
-   - Copy the webhook secret
-   - Add it to Convex environment variables as `POLAR_WEBHOOK_SECRET`
-   - Click "Create" to save the webhook
-
-### 3. Database Setup
-When you run `npx convex dev`, these tables will be automatically created:
-- `users`: Stores user information
-- `subscriptions`: Stores subscription details
-- `plans`: Stores your product plans
-- `webhookEvents`: Tracks webhook events from Polar
-
-In your Convex dashboard, add a plan to the `plans` table:
-```json
-{
-  "description": "<your-description>",
-  "key": "pro",
-  "name": "<your-plan-name>",
-  "polarProductId": "<your-product-id>",
-  "prices": {
-    "month": {
-      "usd": {
-        "amount": "<monthly-amount>",
-        "polarId": "<monthly-price-id>"
-      }
-    },
-    "year": {
-      "usd": {
-        "amount": "<yearly-amount>",
-        "polarId": "<yearly-price-id>"
-      }
-    }
-  }
-}
-```
-
-### 4. Development vs Production Setup
-
-#### Local Development
-1. Install [ngrok](https://ngrok.com/) for local webhook testing
-2. Start the development server:
-```bash
-bun run dev
-```
-3. In a new terminal, run ngrok:
-```bash
-ngrok http 3000
-```
-4. Copy the ngrok URL (e.g., `https://xxxx-xx-xx-xxx-xx.ngrok.io`)
-5. Set this URL as `FRONTEND_URL` in your Convex environment variables
-
-#### Production Setup
-When deploying to production:
-1. Replace the `FRONTEND_URL` in Convex environment variables with your production URL
-2. Update the webhook URL in Polar.sh dashboard to use your production Convex URL
-3. Consider creating a new organization in production Polar.sh instead of sandbox
-
-### 5. AI Playground Setup (Optional)
-Add these environment variables to `.env.local` to enable the AI chat feature:
-```env
-OPENAI_API_KEY=your_key
-DEEPSEEK_API_KEY=your_key
-GROQ_API_KEY=your_key
-```
-
-### Testing Your Setup
-1. Start the development server and visit [http://localhost:3000](http://localhost:3000)
-2. Try signing up and accessing the dashboard
-3. Test the subscription flow with these test card details:
-   - Card number: `4242 4242 4242 4242`
-   - Any future expiry date
-   - Any 3 digits for CVC
-   - Any name and address
-4. After subscribing:
-   - Check the Convex dashboard's Data section
-   - Verify that the `subscriptions` table has been updated
-   - Check the `webhookEvents` table for successful webhook delivery
-5. Test subscription cancellation:
-   - Go to dashboard settings
-   - Cancel your subscription
-   - Verify that you lose access to protected routes
-   - Check that the subscription status is updated in Convex
 
 ### Troubleshooting
 1. If subscription isn't working:
@@ -294,9 +180,6 @@ GROQ_API_KEY=your_key
    - Verify Clerk JWT template is saved
    - Check Clerk signing key in Convex
    - Ensure all Clerk environment variables are set correctly
-3. If AI playground isn't responding:
-   - Verify API keys are correctly set in environment variables
-   - Check for any console errors in the browser
 
 ## Sponsors and Supporters
 
