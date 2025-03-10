@@ -16,11 +16,11 @@ export const metadata: Metadata = {
   description: "Pharmacy Webster Packing Management System",
 };
 
-export default function RootLayout({
-  children,
-}: {
+interface RootLayoutProps {
   children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
   return (
     <ClerkProvider>
       <ConvexClientProvider>
