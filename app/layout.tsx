@@ -1,5 +1,4 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import { Analytics } from "@vercel/analytics/react";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -8,7 +7,6 @@ import { ConvexClientProvider } from "./providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nextstarter.xyz/"),
   title: {
     default: 'PillFlow',
     template: `%s | PillFlow`
@@ -35,7 +33,6 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
               {children}
               <Toaster />
             </ThemeProvider>
-            <Analytics />
           </body>
         </html>
       </ConvexClientProvider>
