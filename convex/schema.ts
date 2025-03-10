@@ -24,8 +24,21 @@ const intervalPricesValidator = v.object({
     usd: priceValidator,
 });
 
-
 export default defineSchema({
+    customers: defineTable({
+        firstName: v.string(),
+        lastName: v.string(),
+        dateOfBirth: v.string(),
+        address: v.object({
+            street: v.string(),
+            city: v.string(),
+            state: v.string(),
+            postalCode: v.string(),
+        }),
+        allergies: v.optional(v.array(v.string())),
+        createdAt: v.string(),
+        createdBy: v.string(), // Reference to the user who created this customer
+    }).index("by_name", ["lastName", "firstName"]),
     users: defineTable({
         createdAt: v.string(),
         email: v.string(),
@@ -80,5 +93,4 @@ export default defineSchema({
     })
         .index("type", ["type"])
         .index("polarEventId", ["polarEventId"]),
-
 })
